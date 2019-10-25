@@ -14,13 +14,14 @@ RUN chmod +x /bin/docker-entrypoint.sh
 # set the entrypoint to run the script
 ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 
-FROM maven
 # get the git url
 ARG giturl
-
 RUN mkdir -p /app/workspace
 RUN echo ${giturl}
 RUN git clone ${giturl} /app/workspace
 RUN ls -lRs /app/workspace
-RUN cat /app/workspace/buildsystem/helloworld/pom.xml
-# RUN mvn -X clean -f /app/workspace/buildsystem/helloworld/pom.xml
+
+RUN cat /app/workspace/helloworld/pom.xml
+
+FROM maven
+# RUN mvn -X clean -f /app/workspace/helloworld/pom.xml

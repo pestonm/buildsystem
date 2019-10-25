@@ -6,6 +6,9 @@ set -e
 useradd Builder
 usermod -G wheel Builder
 
+sudo -u Builder
+whoami
+
 # get the script
 mkdir -p /root/.ssh
 cp -v -R /tmp/.ssh /root

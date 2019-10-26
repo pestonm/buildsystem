@@ -5,7 +5,7 @@
 FROM alpine/git as GitClone
 
 # set permissisons of the ssh keys by running a script
-# Get the docker script from local disk
+# Get the docker s# cript from local disk
 COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
 
 # set the script to executable
@@ -16,12 +16,10 @@ ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 
 # get the git url
 ARG giturl
-RUN echo hello
 RUN mkdir -p /app/workspace
 RUN echo ${giturl}
 RUN git clone ${giturl} /app/workspace
 RUN ls -lRs /app/workspace
-
 
 RUN cat /app/workspace/helloworld/pom.xml
 
@@ -31,4 +29,5 @@ COPY --from=GitClone /app/workspace /app/workspace
 WORKDIR /app/workspace/helloworld/
 
 RUN ls -lRs 
+RUN pwd
 # RUN mvn clean package 

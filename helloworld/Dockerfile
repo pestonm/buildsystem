@@ -22,11 +22,13 @@ RUN echo ${giturl}
 RUN git clone ${giturl} /app/workspace
 RUN ls -lRs /app/workspace
 
+
 RUN cat /app/workspace/helloworld/pom.xml
 
 FROM maven
+RUN java -version
 COPY --from=GitClone /app/workspace /app/workspace
 WORKDIR /app/workspace/helloworld/
 
 RUN ls -lRs 
-RUN mvn clean package 
+# RUN mvn clean package 

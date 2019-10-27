@@ -5,29 +5,26 @@
 FROM alpine/git as GitClone
 
 # set permissisons of the ssh keys by running a script
-# Get the docker s# cript from local disk
-COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+# Get the docker script from local disk
+# COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
 
 # set the script to executable
-RUN chmod +x /bin/docker-entrypoint.sh
+# RUN chmod +x /bin/docker-entrypoint.sh
 
 # set the entrypoint to run the script
-ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+# ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 
-# get the git url
+# get the git url and clone code into the image
 ARG giturl
 RUN mkdir -p /app/workspace
-RUN echo ${giturl}
+RUN echo cloning repository ${giturl}
 RUN git clone ${giturl} /app/workspace
-RUN ls -lRs /app/workspace
+# RUN ls -lRs /app/workspace
 
-RUN cat /app/workspace/helloworld/pom.xml
 
+# Prepare to execute maven at runtime. 
 FROM maven
-RUN java -version
 COPY --from=GitClone /app/workspace /app/workspace
 WORKDIR /app/workspace/helloworld/
-
-RUN ls -lRs 
-RUN pwd
-# RUN mvn clean package 
+RUN ls -lRs
+RUN mvn clean install

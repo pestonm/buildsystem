@@ -6,7 +6,14 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>helloworld</name>
-  <url>http://maven.apache.org</url>
+  <description>helloworld main pom</description>
+  
+  <scm>
+       <connection>scm:git:git@github.com:pestonm/buildsystem.git</connection>
+       <developerConnection>scm:git:git@github.com:pestonm/buildsystem.git</developerConnection>
+       <url>https://github.com/pestonm/buildsystem.git</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -26,13 +33,31 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+	  <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+      </plugin>
     </plugins>
+	 <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
-    <distributionManagement>
-    <repository>
-      <id>com.home.helloworld</id>
-      <name>Nexus Repository</name>
-      <url>http://localhost:8080/nexus-webapp-1.8.0</url>
-    </repository>
-  </distributionManagement>
+  <distributionManagement>
+        <repository>
+            <id>home-releases</id>
+            <name>Home Release Repository (Internal Mirror of Releases Central Repository)</name>
+            <url>http://192.168.99.100:8081/repository/home-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>home-snapshots</id>
+            <name>Home Snapshots Repository (Internal Mirror of Snapshots Central Repository)</name>
+            <url>http://192.168.99.100:8081/repository/home-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

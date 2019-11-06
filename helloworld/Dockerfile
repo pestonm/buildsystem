@@ -18,13 +18,15 @@ FROM alpine/git as GitClone
 ARG giturl
 RUN mkdir -p /app/workspace
 RUN echo cloning repository ${giturl}
-RUN git clone ${giturl} /app/workspace
+RUN git clone -v ${giturl} /app/workspace
 # RUN ls -lRs /app/workspace
 
 
 # Prepare to execute maven at runtime. 
 FROM maven
 COPY --from=GitClone /app/workspace /app/workspace
+COPY settings.xml /app/workspace/.m2/settings.xml
 WORKDIR /app/workspace/helloworld/
 RUN ls -lRs
-RUN mvn clean install
+RUN mvn clean deploy -s /app/workspace/.m2/settings.xml
+RUN ls -lRs /app/workspace/.m2/repository/com/home
